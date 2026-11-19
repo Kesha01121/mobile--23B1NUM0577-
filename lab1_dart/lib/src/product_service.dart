@@ -2,7 +2,7 @@
 // Одоогоор сүлжээг дуурайлгаж байна; 4-р долоо хоногт жинхэнэ HTTP хүсэлтээр
 // (https://dummyjson.com/products) солино.
 
-// TODO 5.1: jsonDecode-ийг ашиглахын тулд 'dart:convert'-ийг import хий.
+import 'dart:convert';
 import 'order_status.dart';
 import 'product.dart';
 
@@ -37,15 +37,29 @@ class ProductService {
   /// jsonDecode-оор задлан Product жагсаалт буцаана.
   /// [shouldFail] true бол `Exception('Сүлжээний алдаа')` шиднэ.
   Future<List<Product>> fetchProducts() async {
-    // TODO 5.1
-    throw UnimplementedError('TODO 5.1');
+    await Future.delayed(delay);
+
+    if (shouldFail) {
+      throw Exception('Сүлжээний алдаа');
+    }
+
+    final decoded = jsonDecode(sampleProductsJson) as List<dynamic>;
+    return decoded
+        .map((item) => Product.fromJson(item as Map<String, dynamic>))
+        .toList();
   }
 
   /// 5.2 Гарчигт [query] агуулсан барааг хайна (том, жижиг үсэг ялгахгүй).
   /// Хоосон query бол бүх барааг буцаана. fetchProducts()-ийг await хий.
   Future<List<Product>> searchProducts(String query) async {
-    // TODO 5.2
-    throw UnimplementedError('TODO 5.2');
+    final products = await fetchProducts();
+    final trimmed = query.trim();
+    if (trimmed.isEmpty) return products;
+
+    final lowerQuery = trimmed.toLowerCase();
+    return products
+        .where((product) => product.title.toLowerCase().contains(lowerQuery))
+        .toList();
   }
 }
 
@@ -54,8 +68,12 @@ class ProductService {
 /// - алдаа гарвал: 'Алдаа: Exception: Сүлжээний алдаа'
 /// try / catch ашигла.
 Future<String> loadProductsMessage(ProductService service) async {
-  // TODO 5.3
-  throw UnimplementedError('TODO 5.3');
+  try {
+    final products = await service.fetchProducts();
+    return 'Ачааллаа: ${products.length} бараа';
+  } catch (e) {
+    return 'Алдаа: $e';
+  }
 }
 
 /// БОНУС B1 — Захиалгын явцыг Stream-ээр дамжуулна.
@@ -67,6 +85,12 @@ Stream<OrderStatus> trackOrder(
   OrderStatus from, {
   Duration step = const Duration(milliseconds: 200),
 }) async* {
-  // TODO B1
-  throw UnimplementedError('TODO B1');
+  OrderStatus? current = from;
+  while (current != null) {
+    yield current;
+    current = current.next;
+    if (current != null) {
+      await Future.delayed(step);
+    }
+  }
 }
