@@ -1,9 +1,8 @@
-// Даалгавар 2 — Product модель. Энэ классыг ShopLite апп-д 4-р долоо
+﻿// Даалгавар 2 — Product модель. Энэ классыг ShopLite апп-д 4-р долоо
 // хоногт dummyjson.com API-гаас ирсэн JSON-ийг хөрвүүлэхэд дахин ашиглана.
 
 /// Үнийг `$12.50` хэлбэрээр форматлана.
 extension PriceFormat on double {
-  // TODO 2.6: 2 оронтой бутархайтай, урдаа $ тэмдэгтэй текст буцаа.
   String get asPrice => '\$${toStringAsFixed(2)}';
 }
 

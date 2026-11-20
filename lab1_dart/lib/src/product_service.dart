@@ -1,4 +1,4 @@
-// Даалгавар 5 — Asynchronous програмчлал: Future, async/await, алдаа барих.
+﻿// Даалгавар 5 — Asynchronous програмчлал: Future, async/await, алдаа барих.
 // Одоогоор сүлжээг дуурайлгаж байна; 4-р долоо хоногт жинхэнэ HTTP хүсэлтээр
 // (https://dummyjson.com/products) солино.
 
@@ -87,7 +87,7 @@ Stream<OrderStatus> trackOrder(
 }) async* {
   OrderStatus? current = from;
   while (current != null) {
-    yield current;
+    yield current; 
     current = current.next;
     if (current != null) {
       await Future.delayed(step);

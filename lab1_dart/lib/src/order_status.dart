@@ -1,4 +1,4 @@
-// Даалгавар 4 — Enhanced enum ба switch expression.
+﻿// Даалгавар 4 — Enhanced enum ба switch expression.
 
 enum OrderStatus {
   pending('Хүлээгдэж буй'),
